@@ -1,0 +1,58 @@
+Unity Editor version:    2022.3.62f3c1 (1623fc0bbb97)
+Branch:                  2022.3/china_unity/release
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 13.6.7 (Build 22G720)
+Darwin version:          22.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hb03881" at "2026-03-23T08:55:43.911528Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 87409, path: "/Applications/Unity Hub.app/Contents/Frameworks/UnityLicensingClient_V1.app/Contents/MacOS/Unity.Licensing.Client")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.16.2'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-hb03881"
+[Licensing::IpcConnector] LicenseClient-hb03881 channel disconnected successfully.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hb03881-2022.3.62" at "2026-03-23T08:55:44.153749Z"
+[Licensing::Client] Code 1 while verifying Licensing Client signature (process Id: 88124, path: "/Applications/Unity/Hub/Editor/2022.3.62f3c1/Unity.app/Contents/Frameworks/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.16.2+bdef8f5
+  Session Id:              f3852492bcbe4b31bfa445bd80a7d7d2
+  Correlation Id:          5b0bd6cb7796ec2a7b8dfb90bee0d24d
+  External correlation Id: 5496815722600485385
+  Machine Id:              ww0paZA+IUhWwi2OXMXVY2wq4Ys=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-hb03881-2022.3.62" (connect: 0.00s, validation: 0.01s, handshake: 0.01s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hb03881-2022.3.62-notifications" at "2026-03-23T08:55:44.172302Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully updated license
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Serial number assigned to: "F4-N6XJ-KBVY-SFJA-9YU9-XXXX"
+Pro License: NO
+[Licensing::Client] Successfully resolved entitlement details
+Launching external process: /Applications/Unity/Hub/Editor/2022.3.62f3c1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/2022.3.62f3c1/Unity.app/Contents/MacOS/Unity
+-projectPath
+.
+-batchmode
+-quit
+-logFile
+unity.log
+Successfully changed project path to: /Users/hb03881/Documents/trae_projects/unitypro/2ddemo_1
+/Users/hb03881/Documents/trae_projects/unitypro/2ddemo_1
+It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/hb03881/Documents/trae_projects/unitypro/2ddemo_1
+Fatal Error! It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/hb03881/Documents/trae_projects/unitypro/2ddemo_1
+[Package Manager] Server::Kill -- Server was shutdown

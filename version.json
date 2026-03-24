@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "bundles": {
+    "gameassets": "1.0.0",
+    "ui": "1.0.0",
+    "audio": "1.0.0"
+  }
+}
