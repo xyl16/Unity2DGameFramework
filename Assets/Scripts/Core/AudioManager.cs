@@ -26,6 +26,13 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
 
+            // 确保场景中有 AudioListener
+            if (FindObjectOfType<AudioListener>() == null)
+            {
+                var audioListener = gameObject.AddComponent<AudioListener>();
+                Debug.Log("[AudioManager] AudioListener added to AudioManager GameObject");
+            }
+
             // 创建背景音乐播放源
             if (musicSource == null)
             {

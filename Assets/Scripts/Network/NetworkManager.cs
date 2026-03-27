@@ -5,11 +5,13 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour
 {
     private static NetworkManager instance;
+    private static bool isApplicationQuitting = false;
+
     public static NetworkManager Instance
     {
         get
         {
-            if (instance == null)
+            if (instance == null && !isApplicationQuitting)
             {
                 GameObject obj = new GameObject("NetworkManager");
                 instance = obj.AddComponent<NetworkManager>();
@@ -54,16 +56,22 @@ public class NetworkManager : MonoBehaviour
 
     private void HandleConnected()
     {
-        Logger.Instance.LogInfo("Connected to server", "Network");
-        EventManager.Instance.InvokeEvent("NetworkConnected");
-        OnConnected?.Invoke();
+        if (!isApplicationQuitting)
+        {
+            Logger.Instance?.LogInfo("Connected to server", "Network");
+            EventManager.Instance?.InvokeEvent("NetworkConnected");
+            OnConnected?.Invoke();
+        }
     }
 
     private void HandleDisconnected()
     {
-        Logger.Instance.LogWarning("Disconnected from server", "Network");
-        EventManager.Instance.InvokeEvent("NetworkDisconnected");
-        OnDisconnected?.Invoke();
+        if (!isApplicationQuitting)
+        {
+            Logger.Instance?.LogWarning("Disconnected from server", "Network");
+            EventManager.Instance?.InvokeEvent("NetworkDisconnected");
+            OnDisconnected?.Invoke();
+        }
     }
 
     private void HandleDataReceived(byte[] data)
@@ -161,5 +169,20 @@ public class NetworkManager : MonoBehaviour
     {
         messageHandlers.Clear();
         Logger.Instance.LogInfo("Cleared all message handlers", "Network");
+    }
+
+    private void OnApplicationQuit()
+    {
+        isApplicationQuitting = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            isApplicationQuitting = true;
+            Disconnect();
+            instance = null;
+        }
     }
 }

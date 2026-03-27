@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -39,8 +40,9 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-
+        DontDestroyOnLoad(gameObject);
         InitializeManagers();
+        InitializeExtensionModules();
     }
 
     private void InitializeManagers()
@@ -62,10 +64,50 @@ public class GameManager : Singleton<GameManager>
         Logger.Instance.LogInfo("GameManager initialized", "GameManager");
     }
 
+    private void InitializeExtensionModules()
+    {
+        Logger.Instance.LogInfo("Initializing Extension Modules", "GameManager");
+
+        // 性能监控
+        var performanceMonitor = PerformanceMonitor.Instance;
+        Logger.Instance.LogInfo("PerformanceMonitor initialized");
+
+        // 数据分析
+        var analyticsManager = AnalyticsManager.Instance;
+        Logger.Instance.LogInfo("AnalyticsManager initialized");
+
+        // 多语言
+        var languageManager = LanguageManager.Instance;
+        Logger.Instance.LogInfo($"LanguageManager initialized: {languageManager.GetLanguageName(languageManager.GetCurrentLanguage())}");
+
+        // 存档系统
+        var saveManager = SaveManager.Instance;
+        Logger.Instance.LogInfo($"SaveManager initialized: {saveManager.GetUsedSlotCount()} save slots used");
+    }
+
     private void Start()
     {
         CurrentState = GameState.Initializing;
+        RegisterEvents();
         StartVersionCheck();
+    }
+
+    private void RegisterEvents()
+    {
+        EventManager.Instance.AddListener("SceneLoaded", OnSceneLoaded);
+        EventManager.Instance.AddListener("SceneUnloaded", OnSceneUnloaded);
+    }
+
+    private void OnSceneLoaded(object data)
+    {
+        string sceneName = data as string;
+        Logger.Instance.LogInfo($"Scene loaded: {sceneName}", "GameManager");
+    }
+
+    private void OnSceneUnloaded(object data)
+    {
+        string sceneName = data as string;
+        Logger.Instance.LogInfo($"Scene unloaded: {sceneName}", "GameManager");
     }
 
     private void StartVersionCheck()
@@ -221,6 +263,9 @@ public class GameManager : Singleton<GameManager>
     protected override void OnDestroy()
     {
         base.OnDestroy();
+
+        EventManager.Instance.RemoveListener("SceneLoaded", OnSceneLoaded);
+        EventManager.Instance.RemoveListener("SceneUnloaded", OnSceneUnloaded);
 
         if (networkManager != null && networkManager.IsConnected)
         {

@@ -10,6 +10,7 @@ public class SocketClient : MonoBehaviour
     private Thread receiveThread;
     private bool isConnected;
     private bool isDisconnecting;
+    private bool isApplicationQuitting = false;
 
     public event Action OnConnected;
     public event Action OnDisconnected;
@@ -95,7 +96,11 @@ public class SocketClient : MonoBehaviour
             }
         }
 
-        OnDisconnected?.Invoke();
+        // 只在非应用退出时触发断开连接事件
+        if (!isApplicationQuitting)
+        {
+            OnDisconnected?.Invoke();
+        }
     }
 
     public void Send(byte[] data)
@@ -176,11 +181,13 @@ public class SocketClient : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        isApplicationQuitting = true;
         Disconnect();
     }
 
     private void OnDestroy()
     {
+        isApplicationQuitting = true;
         Disconnect();
     }
 }
