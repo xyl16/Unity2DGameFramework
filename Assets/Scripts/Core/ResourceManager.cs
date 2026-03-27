@@ -96,7 +96,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    public void CheckVersion(UnityAction<bool, string> onComplete)
+    public void CheckVersion(Action<bool, string> onComplete)
     {
         if (!enableRemoteCheck || !useAssetBundles)
         {
@@ -107,7 +107,7 @@ public class ResourceManager : MonoBehaviour
         StartCoroutine(CheckRemoteVersionCoroutine(onComplete));
     }
 
-    private IEnumerator CheckRemoteVersionCoroutine(UnityAction<bool, string> onComplete)
+    private IEnumerator CheckRemoteVersionCoroutine(Action<bool, string> onComplete)
     {
         string url = Path.Combine(remoteBundleUrl, versionFileName);
         using (UnityWebRequest request = UnityWebRequest.Get(url))
@@ -166,12 +166,12 @@ public class ResourceManager : MonoBehaviour
 
     #region AssetBundle Loading
 
-    public void DownloadBundle(string bundleName, UnityAction<bool, AssetBundle> onComplete)
+    public void DownloadBundle(string bundleName, Action<bool, AssetBundle> onComplete)
     {
         StartCoroutine(DownloadBundleCoroutine(bundleName, onComplete));
     }
 
-    private IEnumerator DownloadBundleCoroutine(string bundleName, UnityAction<bool, AssetBundle> onComplete)
+    private IEnumerator DownloadBundleCoroutine(string bundleName, Action<bool, AssetBundle> onComplete)
     {
         string url = Path.Combine(remoteBundleUrl, bundleName);
         using (UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(url))
@@ -263,12 +263,12 @@ public class ResourceManager : MonoBehaviour
         Logger.Instance.LogInfo($"Load mode changed to: {mode}", "ResourceManager");
     }
 
-    public void LoadAssetAsync<T>(string path, UnityAction<T> callback) where T : UnityEngine.Object
+    public void LoadAssetAsync<T>(string path, Action<T> callback) where T : UnityEngine.Object
     {
         StartCoroutine(LoadAssetCoroutine(path, callback));
     }
 
-    private IEnumerator LoadAssetCoroutine<T>(string path, UnityAction<T> callback) where T : UnityEngine.Object
+    private IEnumerator LoadAssetCoroutine<T>(string path, Action<T> callback) where T : UnityEngine.Object
     {
         string cacheKey = $"{currentLoadMode}:{path}";
 
@@ -292,7 +292,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadFromResourcesCoroutine<T>(string path, string cacheKey, UnityAction<T> callback) where T : UnityEngine.Object
+    private IEnumerator LoadFromResourcesCoroutine<T>(string path, string cacheKey, Action<T> callback) where T : UnityEngine.Object
     {
         ResourceRequest request = Resources.LoadAsync<T>(path);
         yield return request;
@@ -309,7 +309,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadFromLocalABCoroutine<T>(string path, string cacheKey, UnityAction<T> callback) where T : UnityEngine.Object
+    private IEnumerator LoadFromLocalABCoroutine<T>(string path, string cacheKey, Action<T> callback) where T : UnityEngine.Object
     {
         string bundleName = GetBundleNameForAsset(path);
         if (string.IsNullOrEmpty(bundleName))
@@ -341,7 +341,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadFromRemoteABCoroutine<T>(string path, string cacheKey, UnityAction<T> callback) where T : UnityEngine.Object
+    private IEnumerator LoadFromRemoteABCoroutine<T>(string path, string cacheKey, Action<T> callback) where T : UnityEngine.Object
     {
         string bundleName = GetBundleNameForAsset(path);
         if (string.IsNullOrEmpty(bundleName))
@@ -373,7 +373,7 @@ public class ResourceManager : MonoBehaviour
         yield return StartCoroutine(LoadFromBundle(bundle, path, cacheKey, callback));
     }
 
-    private IEnumerator LoadFromBundle<T>(AssetBundle bundle, string path, string cacheKey, UnityAction<T> callback) where T : UnityEngine.Object
+    private IEnumerator LoadFromBundle<T>(AssetBundle bundle, string path, string cacheKey, Action<T> callback) where T : UnityEngine.Object
     {
         AssetBundleRequest request = bundle.LoadAssetAsync<T>(path);
         yield return request;
